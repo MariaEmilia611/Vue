@@ -1,25 +1,54 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="container-box">
+    <h3>{{ count }}</h3>
+    <MyButton @increment="incrementCount"/>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+  import MyButton from './components/MyButton.vue';
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MyButton
+
+  },
+  data() {
+    return {
+      count: 0
+    }
+  },
+  methods: {
+    incrementCount() {
+      this.count++
+    }
   }
 }
 </script>
 
 <style>
+.container-box {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
+  padding: 10px;
+  gap: 10px;
+  justify-content: center;
+}
+
+.box {
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  align-items: center;
+  display: flex;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  name-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }
