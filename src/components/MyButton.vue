@@ -1,11 +1,17 @@
 <template>
-    <button @click="$emit('increment')">
-        +1
+    <button @click="$emit('update')">
+        {{ title }}
     </button>
 </template>
 <script>
     export default {
         name: 'MyButton',
+        props: {
+            title: {
+                type: String,
+                default: '+1'
+            }
+        }
     }
 </script>
 <style>

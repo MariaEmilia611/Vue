@@ -1,16 +1,16 @@
 <template>
   <div class="container-box">
-    <h3>{{ count }}</h3>
-    <MyButton @increment="incrementCount"/>
+    <h2>{{ count }}</h2>
+    <CounterButtons  @change-count="handleCountChange"/>
   </div>
 </template>
 
 <script>
-  import MyButton from './components/MyButton.vue';
+  import CounterButtons from './components/CounterButtons.vue';
 export default {
   name: 'App',
   components: {
-    MyButton
+    CounterButtons
 
   },
   data() {
@@ -19,8 +19,18 @@ export default {
     }
   },
   methods: {
-    incrementCount() {
-      this.count++
+    handleCountChange(action, value = 1) {
+      switch (action) {
+        case 'increment':
+          this.count += value
+          break
+        case 'decrement':
+          this.count -= value
+          break
+        case 'reset':
+          this.count = 0
+          break    
+      }
     }
   }
 }
