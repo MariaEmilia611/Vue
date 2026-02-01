@@ -1,18 +1,8 @@
 <template>
     <div class="buttons">
-        <MyButton 
-         title="Soma"
-         @updated="$emit('change-count', 'increment', 1)"
-        />
-        <MyButton 
-         title="Subtração" 
-          @updated="$emit('change-count', 'decrement', 1)"
-
-        />
-        <MyButton 
-         title="Resetar"    
-          @updated="$emit('change-count', 'reset')"
-        />
+        <MyButton title="Soma" @update="$emit('change-count', 'increment', 1)" />
+        <MyButton title="Subtração" @update="$emit('change-count', 'decrement', 1)" />
+        <MyButton title="Resetar" @update="$emit('change-count', 'reset')" />
     </div>
 </template>
 

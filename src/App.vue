@@ -1,17 +1,18 @@
 <template>
   <div class="container-box">
-    <h2>{{ count }}</h2>
-    <CounterButtons  @change-count="handleCountChange"/>
+    <h2 :style="{ color: changeColorCount }">
+      {{ count }}
+    </h2>
+    <CounterButtons @change-count="handleCountChange" />
   </div>
 </template>
 
 <script>
-  import CounterButtons from './components/CounterButtons.vue';
+import CounterButtons from './components/CounterButtons.vue';
 export default {
   name: 'App',
   components: {
     CounterButtons
-
   },
   data() {
     return {
@@ -29,11 +30,23 @@ export default {
           break
         case 'reset':
           this.count = 0
-          break    
+          break
       }
+    }
+  },
+  computed: {
+    changeColorCount() {
+      if (this.count === 0) {
+        return 'black'
+      }
+      if (this.count > 0) {
+        return 'green'
+      }
+      return 'red'
     }
   }
 }
+
 </script>
 
 <style>
