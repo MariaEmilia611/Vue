@@ -4,16 +4,13 @@
       {{ count }}
     </h2>
 
-    <CounterButtons 
-      :count-value="count"
-      @change-count="handleCountChange" 
-    />
+    <CounterButtons :count-value="count" @change-count="handleCountChange" />
 
     <p :style="{ color: changeColorCount }">
       {{ countState }}
     </p>
   </div>
-  
+
 </template>
 
 <script>
@@ -25,7 +22,7 @@ export default {
   },
   data() {
     return {
-      count: 0
+      count: Number(localStorage.getItem('count')) || 0
     }
   },
   methods: {
@@ -54,6 +51,11 @@ export default {
       if (this.count < 0) return 'É negativo!'
       return 'É positivo !'
     }
+  },
+  watch: {
+    count (newValue) {
+      localStorage.setItem('count', newValue)
+    }
   }
 }
 
@@ -81,7 +83,7 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  name-align: center;
+  align-items: center;
   color: #2c3e50;
   margin-top: 60px;
 }
