@@ -55,6 +55,9 @@ export default {
   watch: {
     count (newValue) {
       localStorage.setItem('count', newValue)
+    },
+    changeColorCount(newValue) {
+      alert(`Color selecionada é: ${newValue}`)
     }
   }
 }
