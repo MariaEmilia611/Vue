@@ -10,6 +10,11 @@
         </button>
     </div>
 </template>
+<script>
+export default {
+    name: 'TaskItem'
+}
+</script>
 <style>
 
 .task-item {

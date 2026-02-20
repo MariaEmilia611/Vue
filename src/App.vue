@@ -1,64 +1,15 @@
 <template>
   <div class="container-box">
-    <h2 :style="{ color: changeColorCount }">
-      {{ count }}
-    </h2>
-
-    <CounterButtons :count-value="count" @change-count="handleCountChange" />
-
-    <p :style="{ color: changeColorCount }">
-      {{ countState }}
-    </p>
+    <TaskList />
   </div>
-
 </template>
 
 <script>
-import CounterButtons from './components/CounterButtons.vue';
+import TaskList from './components/TaskList.vue';
 export default {
   name: 'App',
   components: {
-    CounterButtons
-  },
-  data() {
-    return {
-      count: Number(localStorage.getItem('count')) || 0
-    }
-  },
-  methods: {
-    handleCountChange(action, value = 1) {
-      switch (action) {
-        case 'increment':
-          this.count += value
-          break
-        case 'decrement':
-          this.count -= value
-          break
-        case 'reset':
-          this.count = 0
-          break
-      }
-    }
-  },
-  computed: {
-    changeColorCount() {
-      if (this.count === 0) return 'black'
-      if (this.count > 0) return 'green'
-      return 'red'
-    },
-    countState() {
-      if (this.count === 0) return 'É zero!'
-      if (this.count < 0) return 'É negativo!'
-      return 'É positivo !'
-    }
-  },
-  watch: {
-    count (newValue) {
-      localStorage.setItem('count', newValue)
-    },
-    changeColorCount(newValue) {
-      alert(`Color selecionada é: ${newValue}`)
-    }
+    TaskList
   }
 }
 
