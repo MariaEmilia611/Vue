@@ -15,12 +15,12 @@
         <div class="tasks-coitainer">
             <div class="peding-tasks">
                 <h3>Tarefas Pendentes</h3>
-                <TaskItem />
+                <TaskItem :task="{id: 1234, done: false}" />
             </div>
 
             <div class="completed-tasks">
                 <h3>Tarefas Concluidas</h3>
-                <TaskItem />            
+                <TaskItem :task="{id: 456, done: true}"/>            
             </div>
 
         </div>
