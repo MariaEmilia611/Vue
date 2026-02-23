@@ -29,9 +29,15 @@
     </div>
 
     <span>Aqui virá o componente dos contadores</span>
+
+    <div class="watch-output">
+      <h3>Saída do Watch { Console }</h3>
+      <div class="log-container"></div>
+    </div>
   </div>
 </template>
 <script>
+import { watch } from "vue";
 import TaskItem from "./TaskItem.vue";
 export default {
   name: "TaskList",
@@ -44,7 +50,8 @@ export default {
         { id: 1234, done: false },
         { id: 456, done: true },
       ],
-    };
+      watchLogs: []
+    }
   },
   methods: {
     removeTask(taskId) {
@@ -56,8 +63,28 @@ export default {
         task.done = !task.done;
       }
     },
+    logWatch() {
+       this.watchLogs.unshift()
+    }
   },
-};
+},
+watch: {
+  tasks: {
+    handler(newVal, oldVal) {
+      const message = `Tarefas atualizadas: ${newVal.length}`
+      if (oldVal) {
+        const modified = newVal.filter (n => {
+          const oldTask = oldVal.find(o => o.id === n.id);
+          return oldTask && JSON.stringify(n) !== JSON.stringify(oldTask);
+        })
+        if (modified.length > 0) {
+          const modifyMsg = `Tarefas modificadas: ${modified.map(t => t.id).join(', ')}`
+          this.logWatch(modifyMsg)
+        }
+      }
+    }
+  }
+}
 </script>
 <style>
 .task-list-container {
