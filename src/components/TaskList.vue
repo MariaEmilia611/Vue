@@ -32,12 +32,13 @@
 
     <div class="watch-output">
       <h3>Saída do Watch { Console }</h3>
-      <div class="log-container"></div>
+      <div class="log-container">
+        {{ watchLogs }}
+      </div>
     </div>
   </div>
 </template>
 <script>
-import { watch } from "vue";
 import TaskItem from "./TaskItem.vue";
 export default {
   name: "TaskList",
@@ -50,8 +51,8 @@ export default {
         { id: 1234, done: false },
         { id: 456, done: true },
       ],
-      watchLogs: []
-    }
+      watchLogs: [],
+    };
   },
   methods: {
     removeTask(taskId) {
@@ -63,25 +64,31 @@ export default {
         task.done = !task.done;
       }
     },
-    logWatch() {
-       this.watchLogs.unshift()
-    }
+    logWatch(message) {
+      this.watchLogs.unshift(`[${new Date().toLocaleTimeString()}] ${message}`);
+    },
   },
-},
-watch: {
-  tasks: {
-    handler(newVal, oldVal) {
-      const message = `Tarefas atualizadas: ${newVal.length}`
-      if (oldVal) {
-        const modified = newVal.filter (n => {
-          const oldTask = oldVal.find(o => o.id === n.id);
-          return oldTask && JSON.stringify(n) !== JSON.stringify(oldTask);
-        })
-        if (modified.length > 0) {
-          const modifyMsg = `Tarefas modificadas: ${modified.map(t => t.id).join(', ')}`
-          this.logWatch(modifyMsg)
+
+  watch: {
+    tasks: {
+      handler(newVal, oldVal) {
+        const message = `Tarefas atualizadas: ${newVal.length}`
+        this.logWatch(message);
+        if (oldVal) {
+          const modified = newVal.filter((n) => {
+            const oldTask = oldVal.find((o) => o.id === n.id);
+            return oldTask && JSON.stringify(n) !== JSON.stringify(oldTask);
+          });
+          if (modified.length > 0) {
+            const modifyMsg = `Tarefas modificadas: ${modified
+              .map((t) => t.id)
+              .join(", ")}`;
+            this.logWatch(modifyMsg);
+          }
         }
-      }
+      },
+      deep: true,
+      immediate: true
     }
   }
 }
@@ -177,5 +184,21 @@ button {
   margin-bottom: 15px;
   color: #2c3e50;
   text-align: center;
+}
+.watch-output {
+  background-color: #2c3e50;
+  padding: 15px;
+  border-radius: 6px;
+  color: white;
+}
+
+.log-container {
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #1a252f;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-family: monospace;
 }
 </style>
