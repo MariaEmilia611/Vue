@@ -12,18 +12,22 @@
       <div class="peding-tasks">
         <h3>Tarefas Pendentes</h3>
         <TaskItem
-          :task="tasks[0]"
-          @remove-task="removeTask"
+          v-for="task in pendingTasks"
+          :key="task.id"
+          :task="task"
           @toggle-done="toggleTaskDone"
+          @remove-task="removeTask"
         />
       </div>
 
       <div class="completed-tasks">
         <h3>Tarefas Concluidas</h3>
         <TaskItem
-          :task="tasks[1]"
-          @remove-task="removeTask"
+          v-for="task in completedTasks"
+          :key="task.id"
+          :task="task"
           @toggle-done="toggleTaskDone"
+          @remove-task="removeTask"
         />
       </div>
     </div>
@@ -72,7 +76,7 @@ export default {
   watch: {
     tasks: {
       handler(newVal, oldVal) {
-        const message = `Tarefas atualizadas: ${newVal.length}`
+        const message = `Tarefas atualizadas: ${newVal.length}`;
         this.logWatch(message);
         if (oldVal) {
           const modified = newVal.filter((n) => {
@@ -88,10 +92,18 @@ export default {
         }
       },
       deep: true,
-      immediate: true
-    }
-  }
-}
+      immediate: true,
+    },
+  },
+  computed: {
+    completedTasks() {
+      return this.tasks.filter((task) => task.done);
+    },
+    pendingTasks() {
+      return this.tasks.filter((task) => !task.done);
+    },
+  },
+};
 </script>
 <style>
 .task-list-container {
