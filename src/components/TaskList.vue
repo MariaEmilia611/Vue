@@ -3,12 +3,27 @@
     <h2>Lista de Tarefas</h2>
 
     <div class="controls">
-      <button class="btn-add">Adicionar Nova Tarefa</button>
-      <button class="btn-toggle-all">Marcar Todas</button>
-      <button class="btn-clear">Limpar Concluidas</button>
+      <button 
+        :class="btnAddClass"
+        @click="handleShowForm"
+      >
+        {{ btnAddText }}
+     </button>
+
+      <button 
+       class="btn-toggle-all">
+       Marcar Todas
+     </button>
+      
+     <button class="btn-clear">
+       Limpar Concluidas
+      </button>
     </div>
 
-    <div class="add-task-container">
+    <div 
+     v-if="showForm"
+     class="add-task-container"
+    >
       <input 
         v-model="newTaskTitle"
         type="text"
@@ -71,7 +86,8 @@ export default {
         { id: 456, title: "Tarefa 2", done: true },
       ],
       watchLogs: [],
-      newTaskTitle: ''
+      newTaskTitle: '',
+      showForm: false
     };
   },
   methods: {
@@ -97,6 +113,10 @@ export default {
       });
 
       this.newTaskTitle = ''
+      this.showForm = false
+    },
+    handleShowForm() {
+      this.showForm = !this.showForm;
     }
   },
 
@@ -129,6 +149,16 @@ export default {
     pendingTasks() {
       return this.tasks.filter((task) => !task.done);
     },
+    btnAddText() {
+      return this.showForm 
+      ? 'Fechar Formulário' 
+      : 'Adicionar Nova Tarefa'
+    },
+    btnAddClass() {
+      return this.showForm 
+      ? 'btn-close' 
+      : 'btn-add';
+    }
   },
 };
 </script>
@@ -191,6 +221,16 @@ button {
 }
 
 .btn-clear:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+.btn-close {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn-close:hover {
   background-color: #c0392b;
   transform: translateY(-2px);
 }
