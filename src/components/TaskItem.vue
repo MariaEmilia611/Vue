@@ -1,7 +1,7 @@
 <template>
   <div class="task-item">
     <span class="task-id"># {{ task?.id }}</span>
-    <span class="task-status">{{ textStatus }}</span>
+    <span class="task-id">{{ task?.title }}</span>
     <button 
       class="btn-toggle" 
       @click="toggleDone"
@@ -35,9 +35,6 @@ export default {
   computed: {
     btnToggleText() {
       return this.task?.done ? "Desfazer" : "Concluir";
-    },
-    textStatus() {
-      return this.task?.done ? "Concluída" : "Pendente";
     },
   },
 };

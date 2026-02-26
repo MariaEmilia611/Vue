@@ -8,6 +8,21 @@
       <button class="btn-clear">Limpar Concluidas</button>
     </div>
 
+    <div class="add-task-container">
+      <input 
+        v-model="newTaskTitle"
+        type="text"
+        placeholder="Digite o título da tarefa"
+        class="task-input"
+      />
+      <button 
+      class="btn-add"
+      @click="addTask"
+      >
+        Adicionar
+      </button>
+    </div>
+
     <div class="tasks-coitainer">
       <div class="peding-tasks">
         <h3>Tarefas Pendentes</h3>
@@ -52,10 +67,11 @@ export default {
   data() {
     return {
       tasks: [
-        { id: 1234, done: false },
-        { id: 456, done: true },
+        { id: 1234, title: "Tarefa 1", done: false },
+        { id: 456, title: "Tarefa 2", done: true },
       ],
       watchLogs: [],
+      newTaskTitle: ''
     };
   },
   methods: {
@@ -71,6 +87,17 @@ export default {
     logWatch(message) {
       this.watchLogs.unshift(`[${new Date().toLocaleTimeString()}] ${message}`);
     },
+    addTask() {
+      if (this.newTaskTitle.trim() === '') return;
+
+      this.tasks.push({
+      id: Date.now(),
+        title: this.newTaskTitle.trim(),
+        done: false,
+      });
+
+      this.newTaskTitle = ''
+    }
   },
 
   watch: {
@@ -212,5 +239,19 @@ button {
   border-radius: 4px;
   margin-top: 10px;
   font-family: monospace;
+}
+
+.add-task-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.task-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 300px;
 }
 </style>
