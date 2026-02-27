@@ -3,66 +3,77 @@
     <h2>Lista de Tarefas</h2>
 
     <div class="controls">
-      <button 
-        :class="btnAddClass"
-        @click="handleShowForm"
-      >
+      <button :class="btnAddClass" @click="handleShowForm">
         {{ btnAddText }}
-     </button>
-
-      <button 
-       class="btn-toggle-all">
-       Marcar Todas
-     </button>
-      
-     <button class="btn-clear">
-       Limpar Concluidas
       </button>
+
+      <button class="btn-toggle-all">Marcar Todas</button>
+
+      <button class="btn-clear">Limpar Concluidas</button>
     </div>
 
-    <div 
-     v-if="showForm"
-     class="add-task-container"
-    >
-      <input 
+    <div v-if="showForm" class="add-task-container">
+      <input
         v-model="newTaskTitle"
         type="text"
         placeholder="Digite o título da tarefa"
         class="task-input"
       />
-      <button 
-      class="btn-add"
-      @click="addTask"
-      >
-        Adicionar
-      </button>
+      <button class="btn-add" @click="addTask">Adicionar</button>
     </div>
 
     <div class="tasks-coitainer">
       <div class="peding-tasks">
         <h3>Tarefas Pendentes</h3>
-        <TaskItem
-          v-for="task in pendingTasks"
-          :key="task.id"
-          :task="task"
-          @toggle-done="toggleTaskDone"
-          @remove-task="removeTask"
-        />
+        <p v-if="pendingTasks.length === 0">
+          Nenhuma tarefa pendente no momento.
+        </p>
+
+        <div v-else>
+          <TaskItem
+            v-for="task in pendingTasks"
+            :key="task.id"
+            :task="task"
+            @toggle-done="toggleTaskDone"
+            @remove-task="removeTask"
+          />
+        </div>
       </div>
 
       <div class="completed-tasks">
         <h3>Tarefas Concluidas</h3>
-        <TaskItem
-          v-for="task in completedTasks"
-          :key="task.id"
-          :task="task"
-          @toggle-done="toggleTaskDone"
-          @remove-task="removeTask"
-        />
+
+        <p v-if="completedTasks.length === 0">
+          Nenhuma tarefa concluída no momento.
+        </p>
+
+        <div v-else>
+          <TaskItem
+            v-for="task in completedTasks"
+            :key="task.id"
+            :task="task"
+            @toggle-done="toggleTaskDone"
+            @remove-task="removeTask"
+          />
+        </div>
       </div>
     </div>
 
-    <span>Aqui virá o componente dos contadores</span>
+    <div>
+      <h3>Resumo</h3>
+      <p v-if="tasks.length === 0">
+        Você ainda não possui tarefas.
+      </p>
+      <p v-else-if="pendingTasks.length > 0 && completedTasks.length === 0">
+        Você tem {{ pendingTasks.length }} tarefas pendentes.
+      </p>
+      <p v-else-if="completedTasks.length > 0 && pendingTasks.length === 0">
+        Todas as tarefas foram concluídas.
+      </p>
+      <p v-else>
+        Você tem {{ pendingTasks.length }} pendente(s) e {{ completedTasks.length }} concluída(s).
+      </p>
+    </div>
 
     <div class="watch-output">
       <h3>Saída do Watch { Console }</h3>
@@ -86,8 +97,8 @@ export default {
         { id: 456, title: "Tarefa 2", done: true },
       ],
       watchLogs: [],
-      newTaskTitle: '',
-      showForm: false
+      newTaskTitle: "",
+      showForm: false,
     };
   },
   methods: {
@@ -104,20 +115,20 @@ export default {
       this.watchLogs.unshift(`[${new Date().toLocaleTimeString()}] ${message}`);
     },
     addTask() {
-      if (this.newTaskTitle.trim() === '') return;
+      if (this.newTaskTitle.trim() === "") return;
 
       this.tasks.push({
-      id: Date.now(),
+        id: Date.now(),
         title: this.newTaskTitle.trim(),
         done: false,
       });
 
-      this.newTaskTitle = ''
-      this.showForm = false
+      this.newTaskTitle = "";
+      this.showForm = false;
     },
     handleShowForm() {
       this.showForm = !this.showForm;
-    }
+    },
   },
 
   watch: {
@@ -150,15 +161,11 @@ export default {
       return this.tasks.filter((task) => !task.done);
     },
     btnAddText() {
-      return this.showForm 
-      ? 'Fechar Formulário' 
-      : 'Adicionar Nova Tarefa'
+      return this.showForm ? "Fechar Formulário" : "Adicionar Nova Tarefa";
     },
     btnAddClass() {
-      return this.showForm 
-      ? 'btn-close' 
-      : 'btn-add';
-    }
+      return this.showForm ? "btn-close" : "btn-add";
+    },
   },
 };
 </script>
@@ -264,6 +271,7 @@ button {
   color: #2c3e50;
   text-align: center;
 }
+
 .watch-output {
   background-color: #2c3e50;
   padding: 15px;
