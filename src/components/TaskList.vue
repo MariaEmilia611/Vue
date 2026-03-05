@@ -32,6 +32,7 @@
         <div v-else>
           <TaskItem
             v-for="task in pendingTasks"
+            v-memo="[task.done, task.title]"
             :key="task.id"
             :task="task"
             @toggle-done="toggleTaskDone"
@@ -50,6 +51,7 @@
         <div v-else>
           <TaskItem
             v-for="task in completedTasks"
+            v-memo="[task.done, task.title]"
             :key="task.id"
             :task="task"
             @toggle-done="toggleTaskDone"
