@@ -1,6 +1,6 @@
 <template>
   <div class="task-list-container">
-    <h2>Lista de Tarefas</h2>
+    <h2 v-once>Lista de Tarefas</h2>
 
     <div class="controls">
       <button :class="btnAddClass" @click="handleShowForm">
@@ -41,7 +41,7 @@
       </div>
 
       <div class="completed-tasks">
-        <h3>Tarefas Concluidas</h3>
+        <h3 v-once>Tarefas Concluidas</h3>
 
         <p v-if="completedTasks.length === 0">
           Nenhuma tarefa concluída no momento.
