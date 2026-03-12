@@ -103,6 +103,20 @@ export default {
       showForm: false,
     };
   },
+  beforeCreate() {
+    console.log('beforeCreate chamado!');
+    console.log('this.tasks ainda é: ', this.tasks);
+  },
+  created() {
+    console.log('created chamado!');
+    console.log('Agora this.tasks existe: ', this.tasks);
+  },
+  beforeMount() {
+    console.log('beforeMount chamado!');
+  },
+  mounted() {
+    console.log('mounted chamado!');
+  },
   methods: {
     removeTask(taskId) {
       this.tasks = this.tasks.filter((task) => task.id != taskId);
