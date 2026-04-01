@@ -37,6 +37,12 @@ export default {
       return this.task?.done ? "Desfazer" : "Concluir";
     },
   },
+  beforeMount() {
+    console.log('A tarefa: ', this.task.title + 'Será desmontada.');
+  },
+  unmounted() {
+    console.log('A tarefa: ', this.task.title + 'Foi desmontada.');
+  },
 };
 </script>
 <style>
