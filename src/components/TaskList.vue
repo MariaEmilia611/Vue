@@ -13,12 +13,7 @@
     </div>
 
     <div v-if="showForm" class="add-task-container">
-      <input
-        v-model="newTaskTitle"
-        type="text"
-        placeholder="Digite o título da tarefa"
-        class="task-input"
-      />
+      <input v-model="newTaskTitle" type="text" placeholder="Digite o título da tarefa" class="task-input" />
       <button class="btn-add" @click="addTask">Adicionar</button>
     </div>
 
@@ -30,14 +25,8 @@
         </p>
 
         <div v-else>
-          <TaskItem
-            v-for="task in pendingTasks"
-            v-memo="[task.done, task.title]"
-            :key="task.id"
-            :task="task"
-            @toggle-done="toggleTaskDone"
-            @remove-task="removeTask"
-          />
+          <TaskItem v-for="task in pendingTasks" v-memo="[task.done, task.title]" :key="task.id" :task="task"
+            @toggle-done="toggleTaskDone" @remove-task="removeTask" />
         </div>
       </div>
 
@@ -49,14 +38,8 @@
         </p>
 
         <div v-else>
-          <TaskItem
-            v-for="task in completedTasks"
-            v-memo="[task.done, task.title]"
-            :key="task.id"
-            :task="task"
-            @toggle-done="toggleTaskDone"
-            @remove-task="removeTask"
-          />
+          <TaskItem v-for="task in completedTasks" v-memo="[task.done, task.title]" :key="task.id" :task="task"
+            @toggle-done="toggleTaskDone" @remove-task="removeTask" />
         </div>
       </div>
     </div>
@@ -76,13 +59,6 @@
         Você tem {{ pendingTasks.length }} pendente(s) e {{ completedTasks.length }} concluída(s).
       </p>
     </div>
-
-    <div class="watch-output">
-      <h3>Saída do Watch { Console }</h3>
-      <div class="log-container">
-        {{ watchLogs }}
-      </div>
-    </div>
   </div>
 </template>
 <script>
@@ -95,10 +71,7 @@ export default {
   data() {
     return {
       tasks: [
-        { id: 1234, title: "Tarefa 1", done: false },
-        { id: 456, title: "Tarefa 2", done: true },
       ],
-      watchLogs: [],
       newTaskTitle: "",
       showForm: false,
     };
@@ -109,6 +82,14 @@ export default {
   },
   created() {
     console.log('created chamado!');
+    const savedTasks = localStorage.getItem('taskList');
+    if (savedTasks) {
+      try {
+        this.tasks = JSON.parse(savedTasks);
+      } catch (e) {
+        console.log('Erro ao carregar tarefas do localStorage: ', e);
+      }
+    }
     console.log('Agora this.tasks existe: ', this.tasks);
   },
   beforeMount() {
@@ -133,9 +114,6 @@ export default {
         task.done = !task.done;
       }
     },
-    logWatch(message) {
-      this.watchLogs.unshift(`[${new Date().toLocaleTimeString()}] ${message}`);
-    },
     addTask() {
       if (this.newTaskTitle.trim() === "") return;
 
@@ -155,21 +133,14 @@ export default {
 
   watch: {
     tasks: {
-      handler(newVal, oldVal) {
-        const message = `Tarefas atualizadas: ${newVal.length}`;
-        this.logWatch(message);
-        if (oldVal) {
-          const modified = newVal.filter((n) => {
-            const oldTask = oldVal.find((o) => o.id === n.id);
-            return oldTask && JSON.stringify(n) !== JSON.stringify(oldTask);
-          });
-          if (modified.length > 0) {
-            const modifyMsg = `Tarefas modificadas: ${modified
-              .map((t) => t.id)
-              .join(", ")}`;
-            this.logWatch(modifyMsg);
-          }
+      handler(newVal) {
+        try {
+          localStorage.setItem('taskList', JSON.stringify(newVal))
+
+        } catch (e) {
+          console.log('Erro ao salvar no localStorage: ', e);
         }
+
       },
       deep: true,
       immediate: true,
